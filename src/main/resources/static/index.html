@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>GestMat</title>
+<link rel="stylesheet" type="text/css" href="bootstrap-3.3.7-dist/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="css/style.css"/>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script> 
+<!--<script type="text/javascript" src="js/jquery.min.js">-->
+ <script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+</head>
+<body ng-app="GestMat" ng-controller="Materiels">
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+	  <div class="container-fluid">
+	    <div class="navbar-header">
+	      <a class="navbar-brand" href="index.html">Ma Gestion</a>
+	    </div>
+	    <ul class="nav navbar-nav">
+	      <li class="active"><a href="index.html">Accueil</a></li>
+	      <li><a href="materiels.html">Matériels</a></li>
+	      <li><a href="stock.html">Stock</a></li>
+	    </ul>
+	  </div>
+	</nav>
+	<br><br>
+	<marquee><h1 align="center">Sahelys | Gestion des Matériels</h1></marquee>
+	<div class="container spacer" ng-init="charger(); listes()">
+		<div>
+			<form>
+				<label>Recherche:</label>
+				<input type="text" ng-model="search">
+				<button type="button" class="btn btn-info btn-lg" ng-click="charger()">Chercher</button>
+				<button type="button" class="btn btn-success btn-lg" ng-modal="" data-toggle="modal" data-target="#myModal">Ajouter</button>
+				<button type="button" class="btn btn-danger btn-lg " ng-click="supprimer()" ng-init="charger()">Supprimer</button>
+				<div class="modal fade" id="myModal" role="dialog">
+				    <div class="modal-dialog modal-sm">
+				      <div class="modal-content">
+				        <div class="modal-header">
+				          <button type="button" class="close" data-dismiss="modal">&times;</button>
+				          <h4 class="modal-title">Enregistrement d'un matériel</h4>
+				        </div>
+				        <div class="modal-body">
+				          <form>
+							<div class="form-group">
+								<label for="intitule">Intitule:</label>
+								<input id="intitule" type="text" ng-model="materiel.intitule" class="form-control" placeholder="L'intitulé du materiel" required>
+							</div>
+							<div class="form-group">
+								<label for="dimension">Dimension:</label>
+								<input id="dimension" type="text" ng-model="materiel.dimension" class="form-control" placeholder="Le dimension du materiel" required>
+							</div>
+							<div class="form-group">
+								<label for="quantite">Quantité:</label>
+								<input id="quantite" type="number" ng-model="materiel.quantite" class="form-control" placeholder="La quantité du materiel" required>
+							</div>
+							<div class="form-group">
+								<label for="dateAcquisition">Date Acquisition:</label>
+								<input id="dateAcquisition" type="text" ng-model="materiel.dateAcquisition" class="form-control" placeholder="Date">
+							</div>
+							<div class="form-group">
+								<select class="form-control" ng-model="materiel.etat">
+									<option value="Bon" disabled>Etat</option>
+									<option value="Bon">Bon</option>
+									<option value="Passable">Passable</option>
+									<option value="Mauvais">Mauvais</option>
+								</select>
+							</div>
+							<button class="btn btn-primary" ng-click="ajouter()">Ajouter</button>
+						</form>
+				        </div>
+				        <div class="modal-footer">
+				          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				        </div>
+				      </div>
+				    </div>
+				 </div>
+			</form>
+		</div>
+		<br>
+	</div>
+	
+	<div class="container spacer">
+		<table class="table table-striped" >
+			<thead>
+				<tr>
+					<th>Cocher</th><th>#ID</th><th>Intiluté</th><th>Dimension</th><th>Quantité</th><th>Date</th><th>Etat</th><th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="m in materiels.content">
+					<td><input type="checkbox" ng-model="m.isDelete"></td>
+					<td>{{m.id}}</td>
+					<td>{{m.intitule}}</td>
+					<td>{{m.dimension}}</td>
+					<td>{{m.quantite}}</td>
+					<td>{{m.dateAcquisition}}</td>
+					<td>{{m.etat}}</td>
+					<td><button type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#myModal" ng-click="modifier(m)">Modifier</button></td>
+				</tr>
+				
+			</tbody>
+		</table>
+	</div>
+	<div class="container spacer">
+		<ul class="nav nav-pills">
+			<li ng-class="{active:($index==pageCourante)}" class="clickable" ng-repeat="m in pages track by $index">
+				<a ng-click="gotoPage($index)">{{$index}}</a>
+			</li>
+		</ul>
+	</div>
+	<!-- Footer -->
+	<footer class="page-footer font-small blue">
+	
+	  <!-- Copyright -->
+	  <div class="footer-copyright text-center py-3">© 2019 Copyright:
+	    <a href="#"> Ma Gestion.com</a>
+	  </div>
+	  <!-- Copyright -->
+	
+	</footer>
+	<!-- Footer -->
+	<script type="text/javascript" src="angular/angular.min.js"></script>
+	<!-- <script type="text/javascript" src="js/jquery.min.js"></script> -->
+	<script type="text/javascript" src="js/app.js"></script>
+</body>
+</html>
